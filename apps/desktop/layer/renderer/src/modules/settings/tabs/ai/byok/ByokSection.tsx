@@ -40,6 +40,7 @@ export const ByokSection = () => {
             const updatedByok = getAISettings().byok ?? { enabled: false, providers: [] }
             setAISetting("byok", {
               ...updatedByok,
+              enabled: true,
               providers: [...updatedByok.providers, provider],
             })
             toast.success(t("byok.providers.added"))
@@ -70,6 +71,7 @@ export const ByokSection = () => {
             updatedProviders[index] = updatedProvider
             setAISetting("byok", {
               ...updatedByok,
+              enabled: true,
               providers: updatedProviders,
             })
             toast.success(t("byok.providers.updated"))

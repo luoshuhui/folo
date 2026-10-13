@@ -27,8 +27,8 @@ interface LocalByokProvider {
 
 interface LocalAISettings {
   byok?: {
-    enabled: boolean
-    providers: LocalByokProvider[]
+    enabled?: boolean
+    providers?: LocalByokProvider[]
   }
 }
 
@@ -39,10 +39,10 @@ function getUIByokProvider(): LocalByokProvider | null {
   const raw = window.localStorage.getItem("follow:ai")
   if (!raw) return null
   const parsed = JSON.parse(raw) as LocalAISettings
-  if (!parsed.byok?.enabled || !Array.isArray(parsed.byok.providers)) {
+  if (!parsed.byok?.providers || !Array.isArray(parsed.byok.providers)) {
     return null
   }
-  return parsed.byok.providers.find((p) => Boolean(p.apiKey)) || null
+  return parsed.byok.providers.find((p) => Boolean(p.apiKey?.trim())) || null
 }
 
 export class CustomAIService {
@@ -74,12 +74,19 @@ export class CustomAIService {
     const controller = new AbortController()
     const timer = setTimeout(() => controller.abort(), CustomAIConfig.timeoutMs)
 
-    const cleanBaseURL = baseURL.replace(/\/+$/, "").replace(/\/chat\/completions$/, "")
+    let cleanBaseURL = baseURL.trim().replace(/\/+$/, "")
+    if (cleanBaseURL.endsWith("/chat/completions")) {
+      cleanBaseURL = cleanBaseURL.replace(/\/chat\/completions$/, "")
+    }
+    if (cleanBaseURL === "https://api.openai.com") {
+      cleanBaseURL = "https://api.openai.com/v1"
+    }
+
     const response = await fetch(`${cleanBaseURL}/chat/completions`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${apiKey}`,
+        Authorization: `Bearer ${apiKey.trim()}`,
       },
       body: JSON.stringify({
         model,
@@ -94,10 +101,13 @@ export class CustomAIService {
 
     clearTimeout(timer)
 
-    if (!response.ok) return ""
+    if (!response.ok) {
+      const errText = await response.text()
+      return `AI 接口调用失败 [${response.status}]: ${errText.slice(0, 300) || response.statusText}`
+    }
 
     const data = (await response.json()) as ChatCompletionResponse
-    return data.choices?.[0]?.message?.content?.trim() || ""
+    return data.choices?.[0]?.message?.content?.trim() || "AI 返回内容为空"
   }
 
   private static async requestGemini(
@@ -110,8 +120,8 @@ export class CustomAIService {
     const controller = new AbortController()
     const timer = setTimeout(() => controller.abort(), CustomAIConfig.timeoutMs)
 
-    const cleanBaseURL = baseURL.replace(/\/+$/, "")
-    const url = `${cleanBaseURL}/models/${model}:generateContent?key=${apiKey}`
+    const cleanBaseURL = baseURL.trim().replace(/\/+$/, "")
+    const url = `${cleanBaseURL}/models/${model}:generateContent?key=${apiKey.trim()}`
 
     const response = await fetch(url, {
       method: "POST",
@@ -134,10 +144,13 @@ export class CustomAIService {
 
     clearTimeout(timer)
 
-    if (!response.ok) return ""
+    if (!response.ok) {
+      const errText = await response.text()
+      return `Gemini 接口调用失败 [${response.status}]: ${errText.slice(0, 300) || response.statusText}`
+    }
 
     const data = (await response.json()) as GeminiGenerateResponse
-    return data.candidates?.[0]?.content?.parts?.[0]?.text?.trim() || ""
+    return data.candidates?.[0]?.content?.parts?.[0]?.text?.trim() || "AI 返回内容为空"
   }
 
   private static async requestChat(prompt: string, content: string): Promise<string> {
@@ -145,11 +158,11 @@ export class CustomAIService {
     if (uiProvider?.apiKey) {
       if (uiProvider.provider === "google") {
         const baseURL = uiProvider.baseURL || CustomAIConfig.geminiBaseURL
-        const model = uiProvider.model?.trim() || CustomAIConfig.geminiModel
+        const model = uiProvider.model?.trim() || CustomAIConfig.geminiModel || "gemini-1.5-flash"
         return this.requestGemini(baseURL, uiProvider.apiKey, model, prompt, content)
       }
       const baseURL = uiProvider.baseURL || CustomAIConfig.customBaseURL
-      const model = uiProvider.model?.trim() || CustomAIConfig.customModel
+      const model = uiProvider.model?.trim() || CustomAIConfig.customModel || "gpt-4o-mini"
       return this.requestOpenAICompatible(baseURL, uiProvider.apiKey, model, prompt, content)
     }
 

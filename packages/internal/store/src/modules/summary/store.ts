@@ -172,8 +172,11 @@ class SummarySyncService {
     const fetchSummary = async () => {
       if (CustomAIService.isConfigured) {
         const sourceText = entry[target] || entry.description || entry.title || ""
+        if (!sourceText.trim()) {
+          return { data: "无法获取正文内容用于生成摘要" }
+        }
         const customResult = await CustomAIService.generateSummary(sourceText, actionLanguage)
-        if (customResult) return { data: customResult }
+        return { data: customResult }
       }
       return api().ai.summary({
         id: entryId,
