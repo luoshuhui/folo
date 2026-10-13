@@ -64,22 +64,41 @@ const hasAccessToPaidLevel = (role: UserRole | null | undefined, level?: ModelPa
 }
 
 const parseModelString = (modelString: string) => {
-  if (!modelString || !modelString.includes("/") || modelString === "auto") {
-    return { provider: "auto" as ProviderType, modelName: modelString || "Unknown" }
+  if (!modelString) {
+    return { provider: "auto" as ProviderType, modelName: "AI 模型" }
   }
 
-  const [provider, ...modelParts] = modelString.split("/")
-  const modelName = modelParts.join("/")
+  const clean = modelString.trim()
+  let provider: ProviderType = "auto"
+  let modelName = clean
+
+  if (clean.includes("/")) {
+    const parts = clean.split("/")
+    const prefix = parts[0].toLowerCase()
+    modelName = parts.slice(1).join("/")
+    if (prefix in providerIcons) {
+      provider = prefix as ProviderType
+    }
+  }
+
+  if (provider === "auto") {
+    const lower = modelName.toLowerCase()
+    if (lower.includes("gemini") || lower.includes("google")) provider = "google"
+    else if (lower.includes("claude") || lower.includes("anthropic")) provider = "anthropic"
+    else if (lower.includes("deepseek")) provider = "deepseek"
+    else if (lower.includes("moonshot") || lower.includes("kimi")) provider = "moonshotai"
+    else if (lower.includes("gpt") || lower.includes("openai") || lower.includes("o1")) provider = "openai"
+  }
 
   return {
-    provider: (provider as ProviderType) || "auto",
-    modelName: modelName || "Unknown",
+    provider,
+    modelName,
   }
 }
 
 export const AIModelIndicator = memo(({ className, onModelChange }: AIModelIndicatorProps) => {
   const { data, changeModel } = useAIModel()
-  const { defaultModel, availableModels = [], currentModel, availableModelsMenu = [] } = data || {}
+  const { defaultModel, currentModel, availableModelsMenu = [] } = data || {}
   const role = useUserRole()
   const settingModalPresent = useSettingModal()
 
@@ -88,39 +107,33 @@ export const AIModelIndicator = memo(({ className, onModelChange }: AIModelIndic
   }, [currentModel, defaultModel])
 
   const selectedMenuItem = useMemo(() => {
-    return availableModelsMenu.find((item) => item.value === currentModel)
+    return availableModelsMenu.find(
+      (item) =>
+        item.value === currentModel ||
+        item.value?.toLowerCase() === currentModel?.toLowerCase(),
+    )
   }, [availableModelsMenu, currentModel])
 
   const iconClass = providerIcons[provider] || providerIcons.auto
-  const hasMultipleModels = availableModels && availableModels.length > 1
 
   const modelContent = (
     <div
       className={cn(
         "inline-flex shrink-0 items-center rounded-xl border font-medium backdrop-blur-sm transition-colors",
-        hasMultipleModels
-          ? "cursor-button hover:bg-material-medium"
-          : "hover:bg-material-medium/50",
-        "duration-200",
-        "gap-1.5 p-1 text-xs",
-        hasMultipleModels && "px-2",
+        "cursor-button hover:bg-material-medium duration-200",
+        "gap-1.5 p-1 px-2 text-xs",
         "border-border/50 bg-material-ultra-thin",
         "text-text-secondary",
-
         className,
       )}
     >
-      <i className={cn("size-3", iconClass)} />
-      <span className="hidden max-w-20 truncate @md:inline">
+      <i className={cn("size-3 shrink-0", iconClass)} />
+      <span className="inline-block max-w-28 truncate">
         {selectedMenuItem?.label || modelName}
       </span>
-      {hasMultipleModels && <i className="i-mingcute-down-line size-3 opacity-60" />}
+      <i className="i-mingcute-down-line size-3 shrink-0 opacity-60" />
     </div>
   )
-
-  if (!hasMultipleModels) {
-    return modelContent
-  }
 
   return (
     <DropdownMenu>
@@ -130,7 +143,9 @@ export const AIModelIndicator = memo(({ className, onModelChange }: AIModelIndic
           if (value) {
             const { provider: itemProvider, modelName: itemModelName } = parseModelString(value)
             const itemIconClass = providerIcons[itemProvider] || providerIcons.auto
-            const isSelected = value === (currentModel || defaultModel)
+            const isSelected =
+              value === (currentModel || defaultModel) ||
+              itemModelName === modelName
             const normalizedPaidLevel = isModelPaidLevel(paidLevel) ? paidLevel : undefined
             const requiresUpgrade = !hasAccessToPaidLevel(role, normalizedPaidLevel)
 
@@ -173,6 +188,14 @@ export const AIModelIndicator = memo(({ className, onModelChange }: AIModelIndic
             )
           }
         })}
+        <DropdownMenuSeparator />
+        <DropdownMenuItem
+          className="cursor-button gap-2 text-text-secondary"
+          onClick={() => settingModalPresent("ai")}
+        >
+          <i className="i-mgc-settings-6-line size-3.5" />
+          <span>配置 AI 模型...</span>
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   )

@@ -23,6 +23,7 @@ interface LocalByokProvider {
   baseURL?: string | null
   apiKey?: string | null
   model?: string | null
+  availableModels?: string[]
 }
 
 interface LocalAISettings {
@@ -44,6 +45,16 @@ export interface ResolvedAIProvider {
   model: string
 }
 
+function cleanModelName(model?: string | null): string {
+  if (!model) return ""
+  const trimmed = model.trim()
+  if (trimmed.includes("/")) {
+    const parts = trimmed.split("/")
+    return parts.slice(1).join("/")
+  }
+  return trimmed
+}
+
 function getUIByokProviders(): LocalByokProvider[] {
   if (typeof window === "undefined" || !window.localStorage) {
     return []
@@ -60,6 +71,7 @@ function getUIByokProviders(): LocalByokProvider[] {
 function getUIByokProvider(preferredModel?: string | null): LocalByokProvider | null {
   const providers = getUIByokProviders()
   if (providers.length === 0) return null
+
   let targetModel = preferredModel?.trim()
   if (!targetModel && typeof window !== "undefined") {
     const rawModel = window.localStorage.getItem("follow:ai-chat-model")
@@ -67,10 +79,32 @@ function getUIByokProvider(preferredModel?: string | null): LocalByokProvider | 
       targetModel = (JSON.parse(rawModel) as { selectedModel?: string })?.selectedModel?.trim()
     }
   }
+
   if (targetModel) {
-    const matched = providers.find((p) => p.model?.trim() === targetModel)
+    const pureTarget = cleanModelName(targetModel).toLowerCase()
+
+    const matched = providers.find((p) => {
+      const pModel = p.model?.trim()
+      const purePModel = cleanModelName(pModel).toLowerCase()
+      if (pModel === targetModel || purePModel === pureTarget) return true
+
+      if (Array.isArray(p.availableModels)) {
+        return p.availableModels.some((m) => {
+          const pureM = cleanModelName(m).toLowerCase()
+          return m === targetModel || pureM === pureTarget
+        })
+      }
+      return false
+    })
     if (matched) return matched
+
+    if (targetModel.includes("/")) {
+      const prefix = targetModel.split("/")[0].toLowerCase()
+      const providerMatched = providers.find((p) => p.provider.toLowerCase() === prefix)
+      if (providerMatched) return providerMatched
+    }
   }
+
   return providers[0]
 }
 
@@ -98,7 +132,8 @@ export class CustomAIService {
     if (uiProvider?.apiKey) {
       const isGoogle = uiProvider.provider === "google"
       const defaultModel = isGoogle ? CustomAIConfig.geminiModel || "gemini-1.5-flash" : CustomAIConfig.customModel || "gpt-4o-mini"
-      const model = selectedModel?.trim() || uiProvider.model?.trim() || defaultModel
+      const rawModel = selectedModel?.trim() || uiProvider.model?.trim() || defaultModel
+      const model = cleanModelName(rawModel) || defaultModel
       const defaultBaseURL = isGoogle ? CustomAIConfig.geminiBaseURL : CustomAIConfig.customBaseURL
       const baseURL = uiProvider.baseURL || defaultBaseURL
       return {

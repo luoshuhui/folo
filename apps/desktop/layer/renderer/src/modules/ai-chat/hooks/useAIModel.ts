@@ -14,8 +14,16 @@ export const useAIModel = () => {
     const { selectedModel } = modelState
     const { defaultModel, availableModels = [] } = configuration
 
-    // If no model is selected or selected model is not available, use default
-    if (!selectedModel || !availableModels.includes(selectedModel)) {
+    const isAvailable = (name: string | null) => {
+      if (!name) return false
+      if (availableModels.includes(name)) return true
+      const pure = name.includes("/") ? name.split("/").slice(1).join("/") : name
+      return availableModels.some(
+        (m) => m === pure || (m.includes("/") && m.split("/").slice(1).join("/") === pure),
+      )
+    }
+
+    if (!selectedModel || !isAvailable(selectedModel)) {
       setAIModelState({
         selectedModel: defaultModel || null,
       })
@@ -29,22 +37,34 @@ export const useAIModel = () => {
     const { selectedModel } = modelState
     const { defaultModel, availableModels = [] } = configuration
 
-    // Return selected model if valid, otherwise fallback to default
-    if (selectedModel && availableModels.includes(selectedModel)) {
-      return selectedModel
+    if (selectedModel) {
+      if (availableModels.includes(selectedModel)) return selectedModel
+      const pure = selectedModel.includes("/")
+        ? selectedModel.split("/").slice(1).join("/")
+        : selectedModel
+      const matched = availableModels.find(
+        (m) => m === pure || (m.includes("/") && m.split("/").slice(1).join("/") === pure),
+      )
+      if (matched) return matched
     }
 
     return defaultModel || null
   }, [configuration, modelState])
 
   const changeModel = (model: string) => {
-    if (!configuration?.availableModels?.includes(model)) {
+    const available = configuration?.availableModels || []
+    const pure = model.includes("/") ? model.split("/").slice(1).join("/") : model
+    const matched = available.find(
+      (m) => m === model || m === pure || (m.includes("/") && m.split("/").slice(1).join("/") === pure),
+    )
+
+    if (!matched) {
       console.warn(`Model ${model} is not available in current configuration`)
       return
     }
 
     setAIModelState({
-      selectedModel: model,
+      selectedModel: matched,
     })
   }
 
