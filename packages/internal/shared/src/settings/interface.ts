@@ -230,6 +230,7 @@ export type UserByokProviderConfig = {
   apiKey?: string | null
   headers?: Record<string, string>
   model?: string | null
+  availableModels?: string[] | null
 }
 
 export type UserByokSettings = {

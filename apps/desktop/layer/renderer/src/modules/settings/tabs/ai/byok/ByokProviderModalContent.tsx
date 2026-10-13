@@ -120,7 +120,11 @@ export const ByokProviderModalContent = ({
     if (!formData.provider) {
       return
     }
-    onSave(formData)
+    const finalAvailableModels = availableModels.length > 0 ? availableModels : provider?.availableModels
+    onSave({
+      ...formData,
+      availableModels: finalAvailableModels,
+    })
   }
 
   return (

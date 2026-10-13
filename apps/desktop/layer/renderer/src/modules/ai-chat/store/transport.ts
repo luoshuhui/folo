@@ -1,5 +1,6 @@
 import { env } from "@follow/shared/env.desktop"
-import type { HttpChatTransportInitOptions, UIMessageChunk } from "ai"
+import { CustomAIService, type ChatMessage } from "@follow/store/services/custom-ai"
+import type { ChatTransport, HttpChatTransportInitOptions, UIMessageChunk } from "ai"
 import { HttpChatTransport, parseJsonEventStream, uiMessageChunkSchema } from "ai"
 
 import { getAIModelState } from "../atoms/session"
@@ -96,6 +97,99 @@ class ExtendChatTransport extends HttpChatTransport<BizUIMessage> {
     },
   ) {
     super(options)
+  }
+
+  override async sendMessages({
+    abortSignal,
+    ...options
+  }: Parameters<ChatTransport<BizUIMessage>["sendMessages"]>[0]): Promise<
+    ReadableStream<UIMessageChunk>
+  > {
+    if (CustomAIService.isConfigured) {
+      return this.sendByokMessages(options, abortSignal)
+    }
+    return super.sendMessages({ abortSignal, ...options })
+  }
+
+  private async sendByokMessages(
+    options: Omit<Parameters<ChatTransport<BizUIMessage>["sendMessages"]>[0], "abortSignal">,
+    abortSignal?: AbortSignal,
+  ): Promise<ReadableStream<UIMessageChunk>> {
+    const modelState = getAIModelState()
+    const selectedModel = modelState.selectedModel
+
+    const chatMessages: ChatMessage[] = []
+    for (const msg of options.messages) {
+      let content = ""
+      for (const part of (msg.parts || []) as any[]) {
+        if (part.type === "text" && typeof part.text === "string") {
+          content += part.text
+        } else if (part.type === "data-rich-text" && part.data?.text) {
+          content += part.data.text
+        } else if (part.type === "data-block" && Array.isArray(part.data)) {
+          for (const block of part.data) {
+            if (block.value) content += `\n[${block.title || block.type}]: ${block.value}\n`
+          }
+        }
+      }
+      if (content.trim()) {
+        chatMessages.push({
+          role: msg.role === "user" ? "user" : "assistant",
+          content: content.trim(),
+        })
+      }
+    }
+
+    const { onValue } = this.options || {}
+    const handleGeneratedTitle = this.handleGeneratedTitle.bind(this)
+    const partId = Math.random().toString(36).slice(2)
+    let fullResponse = ""
+
+    const textStream = await CustomAIService.streamChat(chatMessages, selectedModel, abortSignal)
+    const reader = textStream.getReader()
+    let hasStarted = false
+
+    return new ReadableStream<UIMessageChunk>({
+      async pull(controller) {
+        if (!hasStarted) {
+          hasStarted = true
+          const startChunk: UIMessageChunk = { type: "text-start", id: partId }
+          controller.enqueue(startChunk)
+          onValue?.(startChunk)
+        }
+
+        const { done, value } = await reader.read()
+        if (done) {
+          const endChunk: UIMessageChunk = { type: "text-end", id: partId }
+          controller.enqueue(endChunk)
+          onValue?.(endChunk)
+
+          const finishChunk: UIMessageChunk = { type: "finish", finishReason: "stop" }
+          controller.enqueue(finishChunk)
+          onValue?.(finishChunk)
+
+          if (fullResponse) {
+            const firstUserMsg = chatMessages.find((m) => m.role === "user")?.content || ""
+            const title = firstUserMsg.slice(0, 20) || "AI 对话"
+            await handleGeneratedTitle({
+              type: "data-generated-title",
+              data: title,
+            } as any)
+          }
+
+          controller.close()
+          return
+        }
+
+        fullResponse += value
+        const deltaChunk: UIMessageChunk = { type: "text-delta", id: partId, delta: value }
+        controller.enqueue(deltaChunk)
+        onValue?.(deltaChunk)
+      },
+      cancel() {
+        reader.cancel()
+      },
+    })
   }
 
   protected processResponseStream(
