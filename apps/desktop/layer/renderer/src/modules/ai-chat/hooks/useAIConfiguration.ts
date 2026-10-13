@@ -38,6 +38,14 @@ export const useAIConfiguration = () => {
           defaultModel: availableModels[0] || "gpt-4o-mini",
           availableModels,
           availableModelsMenu,
+          usage: {
+            total: 0,
+            used: 0,
+          },
+          rateLimit: {
+            warningLevel: "safe",
+            usageRate: 0,
+          },
         }
       }
 

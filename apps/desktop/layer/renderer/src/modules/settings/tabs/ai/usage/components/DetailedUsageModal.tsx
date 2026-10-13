@@ -40,7 +40,7 @@ export const DetailedUsageModal = () => {
     )
   }
 
-  if (!config) {
+  if (!config || !config.usage) {
     return (
       <div className="flex h-96 items-center justify-center">
         <div className="text-sm text-text-secondary">{t("usage_analysis.no_data")}</div>

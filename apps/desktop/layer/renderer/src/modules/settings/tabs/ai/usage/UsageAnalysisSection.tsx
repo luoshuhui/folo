@@ -15,7 +15,7 @@ export const UsageAnalysisSection = () => {
   if (isLoading) {
     return <div className="h-36 animate-pulse rounded-lg bg-fill-secondary" />
   }
-  if (!config) return null
+  if (!config || !config.usage) return null
 
   const { usage, rateLimit } = config
   const usagePercentage = usage.total === 0 ? 0 : (usage.used / usage.total) * 100
