@@ -1,9 +1,9 @@
 import type { SummarySchema } from "@follow/database/schemas/types"
 import { summaryService } from "@follow/database/services/summary"
-import type { SupportedActionLanguage } from "@follow/shared"
-import { toApiSupportedActionLanguage } from "@follow/shared"
+import { CustomAIConfig, toApiSupportedActionLanguage } from "@follow/shared"
 
 import { api } from "../../context"
+import { CustomAIService } from "../../services/custom-ai"
 import type { Hydratable, Resetable } from "../../lib/base"
 import { createImmerSetter, createTransaction, createZustandStore } from "../../lib/helper"
 import { getEntry } from "../entry/getter"
@@ -169,14 +169,20 @@ class SummarySyncService {
       state.generatingStatus[statusID] = SummaryGeneratingStatus.Pending
     })
 
-    // Use Our AI to generate summary
-    const pendingPromise = api()
-      .ai.summary({
+    const fetchSummary = async () => {
+      if (CustomAIService.isConfigured) {
+        const sourceText = entry[target] || entry.description || entry.title || ""
+        const customResult = await CustomAIService.generateSummary(sourceText, actionLanguage)
+        if (customResult) return { data: customResult }
+      }
+      return api().ai.summary({
         id: entryId,
         language: toApiSupportedActionLanguage(actionLanguage),
         target,
       })
-      .then((summary) => {
+    }
+
+    const pendingPromise = fetchSummary().then((summary) => {
         const generatedSummary = summary.data?.trim() ? summary.data : null
 
         if (!generatedSummary) {

@@ -1,12 +1,12 @@
 import { UserRole } from "@follow/constants"
 import type { TranslationSchema } from "@follow/database/schemas/types"
 import { TranslationService } from "@follow/database/services/translation"
-import type { SupportedActionLanguage } from "@follow/shared"
-import { toApiSupportedActionLanguage } from "@follow/shared"
+import { CustomAIConfig, toApiSupportedActionLanguage } from "@follow/shared"
 import { checkLanguage } from "@follow/utils/language"
 import { create, indexedResolver, windowScheduler } from "@yornaath/batshit"
 
 import { api } from "../../context"
+import { CustomAIService } from "../../services/custom-ai"
 import type { Hydratable, Resetable } from "../../lib/base"
 import { createImmerSetter, createTransaction, createZustandStore } from "../../lib/helper"
 import { readNdjsonStream } from "../../lib/stream"
@@ -169,6 +169,35 @@ class TranslationSyncService {
           continue
         }
 
+        if (CustomAIService.isConfigured) {
+          for (const id of group.ids) {
+            const entry = getEntry(id)
+            if (!entry) continue
+            const key = group.keyById[id]
+            const fieldList = group.fields.split(",")
+            const translation: TranslationModel = {
+              entryId: id,
+              language: group.language,
+              title: null,
+              description: null,
+              content: null,
+              readabilityContent: null,
+            }
+            for (const field of fieldList) {
+              const text = (entry as Record<string, unknown>)[field]
+              if (typeof text === "string" && text) {
+                const translated = await CustomAIService.translateText(text, group.language)
+                if (translated) {
+                  (translation as Record<string, unknown>)[field] = translated
+                }
+              }
+            }
+            if (key) results[key] = translation
+            await translationActions.upsertMany([translation])
+          }
+          continue
+        }
+
         try {
           const request: TranslationBatchRequest & { mode?: TranslationMode } = {
             ids: group.ids,
@@ -232,7 +261,7 @@ class TranslationSyncService {
   }) {
     const userRole = useUserStore.getState().role
 
-    if (userRole === UserRole.Free) return null
+    if (userRole === UserRole.Free && !CustomAIService.isConfigured) return null
     const translationMode = mode ?? "bilingual"
     await this.ensureMode(translationMode)
 

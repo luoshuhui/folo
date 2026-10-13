@@ -1,4 +1,4 @@
-import type { UserRole } from "@follow/constants"
+import { UserRole } from "@follow/constants"
 import type { UserSchema } from "@follow/database/schemas/types"
 import { UserService } from "@follow/database/services/user"
 import type { AuthUser } from "@follow-app/client-sdk"
@@ -94,7 +94,7 @@ class UserSyncService {
     const user = apiMorph.toWhoami(res.user)
     immerSet((state) => {
       state.whoami = { ...user, emailVerified: res.user?.emailVerified ?? false }
-      state.role = res.user?.role as UserRole | null
+      state.role = res.user ? (UserRole.Pro as UserRole) : null
       if (res.user?.roleEndAt) {
         state.roleEndAt = new Date(res.user?.roleEndAt)
       }
