@@ -22,6 +22,7 @@ interface LocalByokProvider {
   provider: string
   baseURL?: string | null
   apiKey?: string | null
+  model?: string | null
 }
 
 interface LocalAISettings {
@@ -144,22 +145,12 @@ export class CustomAIService {
     if (uiProvider?.apiKey) {
       if (uiProvider.provider === "google") {
         const baseURL = uiProvider.baseURL || CustomAIConfig.geminiBaseURL
-        return this.requestGemini(
-          baseURL,
-          uiProvider.apiKey,
-          CustomAIConfig.geminiModel,
-          prompt,
-          content,
-        )
+        const model = uiProvider.model?.trim() || CustomAIConfig.geminiModel
+        return this.requestGemini(baseURL, uiProvider.apiKey, model, prompt, content)
       }
       const baseURL = uiProvider.baseURL || CustomAIConfig.customBaseURL
-      return this.requestOpenAICompatible(
-        baseURL,
-        uiProvider.apiKey,
-        CustomAIConfig.customModel,
-        prompt,
-        content,
-      )
+      const model = uiProvider.model?.trim() || CustomAIConfig.customModel
+      return this.requestOpenAICompatible(baseURL, uiProvider.apiKey, model, prompt, content)
     }
 
     if (!this.isConfigured) return ""

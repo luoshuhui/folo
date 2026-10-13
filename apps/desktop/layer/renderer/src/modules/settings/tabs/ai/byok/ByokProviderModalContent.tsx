@@ -43,6 +43,7 @@ export const ByokProviderModalContent = ({
     provider: provider?.provider ?? defaultProvider,
     baseURL: provider?.baseURL ?? null,
     apiKey: provider?.apiKey ?? null,
+    model: provider?.model ?? null,
     headers: provider?.headers ?? {},
   })
 
@@ -110,6 +111,23 @@ export const ByokProviderModalContent = ({
           }
         />
         <p className="text-xs text-text-secondary">{t("byok.providers.form.api_key_help")}</p>
+      </div>
+
+      <div className="space-y-2">
+        <Label htmlFor="model">Model Name</Label>
+        <Input
+          id="model"
+          type="text"
+          placeholder="e.g. gpt-4o-mini, deepseek-chat, gemini-1.5-flash"
+          value={formData.model ?? ""}
+          onChange={(e) =>
+            setFormData({
+              ...formData,
+              model: e.target.value || null,
+            })
+          }
+        />
+        <p className="text-xs text-text-secondary">Optional: default model used for AI translation and summary</p>
       </div>
 
       <div className="flex justify-end gap-2">

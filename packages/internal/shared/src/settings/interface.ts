@@ -229,6 +229,7 @@ export type UserByokProviderConfig = {
   baseURL?: string | null
   apiKey?: string | null
   headers?: Record<string, string>
+  model?: string | null
 }
 
 export type UserByokSettings = {
