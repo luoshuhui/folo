@@ -71,6 +71,11 @@
       "require": "./src/reset.ts",
       "import": "./src/reset.ts"
     },
+    "./services/*": {
+      "types": "./src/services/*.ts",
+      "require": "./src/services/*.ts",
+      "import": "./src/services/*.ts"
+    },
     "./subscription/*": {
       "types": "./src/modules/subscription/*.ts",
       "require": "./src/modules/subscription/*.ts",
