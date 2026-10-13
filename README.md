@@ -1,8 +1,7 @@
 # Folo (Customized Edition)
 
 > 本分支为基于官方开源 Folo 客户端的定制增强版本。重点移除了官方商业化权益限制，全面接管并增强了 BYOK（自带密钥）机制，支持任意自定义 OpenAI 兼容接口与模型拉取，确保所有 AI 能力完全由本地自主配置驱动。
-> 
-> [English README / 原版英文文档请参阅: readmd_en.md (README_EN.md)](./readmd_en.md)
+> [English README / 原版英文文档请参阅: README_EN.md (readmd_en.md)](./README_EN.md)
 
 ---
 
