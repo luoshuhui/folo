@@ -1,147 +1,147 @@
-<div align="center">
-  <a href="https://folo.is">
-    <img src="https://github.com/RSSNext/Folo/raw/refs/heads/dev/apps/desktop/layer/renderer/public/icon.svg" alt="Folo" width="80" height="80">
-  </a>
+# Folo (Customized Edition)
 
-  <h3>Folo</h3>
-  <p>
-    <img src="https://github.com/user-attachments/assets/cbe924f2-d8b0-48b0-814e-7c06ccb1911c" alt="Top 1 News App on the App Store" height="60" />
-    &nbsp;&nbsp;&nbsp;
-    <img src="https://github.com/user-attachments/assets/6997a236-3df3-49d5-98a4-514f6d1a02c4" alt="Top 1 Trending of the Month on GitHub" height="60" />
-    <br />
-    <br />
-    <a href="https://github.com/RSSNext/Folo/stargazers"><img src="https://img.shields.io/github/stars/RSSNext/Folo?color=ffcb47&labelColor=black&style=flat-square&logo=github&label=Stars" /></a>
-    <a href="https://github.com/RSSNext/Folo/graphs/contributors"><img src="https://img.shields.io/github/contributors/RSSNext/Folo?style=flat-square&logo=github&label=Contributors&labelColor=black" /></a>
-    <a href="https://github.com/RSSNext/Folo/releases"><img src="https://img.shields.io/github/downloads/RSSNext/Folo/total?color=369eff&labelColor=black&logo=github&style=flat-square&label=Downloads" /></a>
-    <a href="https://x.com/intent/follow?screen_name=folo_is"><img src="https://img.shields.io/badge/Follow-blue?color=1d9bf0&logo=x&labelColor=black&style=flat-square" /></a>
-    <a href="https://discord.gg/AwWcAQ7euc" target="_blank"><img src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fdiscord.com%2Fapi%2Finvites%2FAwWcAQ7euc%3Fwith_counts%3Dtrue&query=approximate_member_count&color=5865F2&label=Discord&labelColor=black&logo=discord&logoColor=white&style=flat-square"/></a>
-    <br />
-    <a href="https://apps.apple.com/us/app/folo-follow-everything/id6739802604"><img src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fota.folo.is%2Fversions&query=%24.store.mobile.ios.version&prefix=v&style=flat-square&logo=apple&label=App%20Store&color=FF5C00&labelColor=black&cacheSeconds=600" /></a>
-    <a href="https://play.google.com/store/apps/details?id=is.follow" target="_blank"><img src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fota.folo.is%2Fversions&query=%24.store.mobile.android.version&prefix=v&style=flat-square&logo=google-play&label=Google%20Play&labelColor=black&color=FF5C00&cacheSeconds=600"/></a>
-    <a href="https://apps.apple.com/us/app/folo-follow-everything/id6739802604"><img src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fota.folo.is%2Fversions&query=%24.store.desktop.mas.version&prefix=v&style=flat-square&logo=apple&label=Mac%20App%20Store&labelColor=black&color=FF5C00&cacheSeconds=600" /></a>
-    <a href="https://apps.microsoft.com/detail/9nvfzpv0v0ht?mode=direct"><img src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fota.folo.is%2Fversions&query=%24.store.desktop.mss.version&prefix=v&style=flat-square&logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIj48cGF0aCBmaWxsPSIjZmZmIiBkPSJNMyAzaDguNTN2OC41M0gzek0xMi40NjkgM2g4LjUzdjguNTNoLTguNTN6TTMgMTIuNDdoOC41M1YyMUgzek0xMi40NjkgMTIuNDdoOC41M1YyMWgtOC41M3oiLz48L3N2Zz4%3D&logoColor=white&label=Microsoft%20Store&labelColor=black&color=FF5C00&cacheSeconds=600" /></a>
-    <a href="https://github.com/RSSNext/Folo/releases"><img src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fota.folo.is%2Fversions&query=%24.github.desktop.version&prefix=v&style=flat-square&logo=github&label=Desktop&labelColor=black&color=FF5C00&cacheSeconds=600" /></a>
-    <br />
-    <br />
-    <a href="https://folo.is" target="_blank"><img src="https://github.com/user-attachments/assets/95bd0348-4b32-453d-8a8d-4a6ebede81fa" alt="Folo on Mac and iPhone. All your feeds. None of the noise." width="100%" /></a>
-    <br />
-    <br />
-  </p>
-</div>
+> 本分支为基于官方开源 Folo 客户端的定制增强版本。重点移除了官方商业化权益限制，全面接管并增强了 BYOK（自带密钥）机制，支持任意自定义 OpenAI 兼容接口与模型拉取，确保所有 AI 能力完全由本地自主配置驱动。
+> 
+> [English README / 原版英文文档请参阅: readmd_en.md (README_EN.md)](./readmd_en.md)
 
-Folo is an open-source AI RSS reader that brings everything you follow into one calm timeline, then helps you read it. Follow blogs, news sites, newsletters, podcasts, video channels and social feeds in one place, ask AI about what you read, get a digest of your day, and let summaries and translations do the heavy lifting.
+---
 
-## 👋🏻 Getting Started & Join Our Community
+## 目录
+1. [原版 Folo 存在的问题](#1-原版-folo-存在的问题)
+2. [为什么 Fork 进行定制修改](#2-为什么-fork-进行定制修改)
+3. [解锁的原版付费（Pro）功能清单](#3-解锁的原版付费pro功能清单)
+4. [具体修改内容与实现概览](#4-具体修改内容与实现概览)
+5. [快速上手与配置指南](#5-快速上手与配置指南)
+6. [编译与打包说明](#6-编译与打包说明)
+7. [上游代码合并指南](#7-上游代码合并指南)
 
-Folo runs in the browser and on iOS, Android, macOS, Windows and Linux, and keeps your subscriptions, read status and stars in sync across all of them. It is under active development, and feedback is welcome for any [issue](https://github.com/RSSNext/Folo/issues) you run into.
+---
 
-| Platform | Download                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
-| :------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Web      | <a href="https://app.folo.is" target="_blank"><img src="https://github.com/user-attachments/assets/51ef7800-b683-4493-83e8-eb4752366997" alt="Try on the Browser" height="55"/></a>                                                                                                                                                                                                                                                                          |
-| iOS      | <a href="https://apps.apple.com/us/app/folo-follow-everything/id6739802604" target="_blank"><img src="https://github.com/user-attachments/assets/a94d8698-2a11-4f43-9b0a-b756b17b61f7" alt="Download on the App Store" height="55"/></a>                                                                                                                                                                                                                     |
-| Android  | <a href="https://play.google.com/store/apps/details?id=is.follow" target="_blank"><img src="https://github.com/user-attachments/assets/0d178e0b-3ace-4f75-bbde-ab3c0a416ce8" alt="Get it on Google Play" height="55"/></a> <a href="https://github.com/RSSNext/Folo/releases/latest" target="_blank"><img src="https://github.com/user-attachments/assets/cf61e197-d756-4606-a8ad-fb591f79fdfc" alt="Download on GitHub" height="55"/></a>                   |
-| macOS    | <a href="https://apps.apple.com/us/app/folo-follow-everything/id6739802604" target="_blank"><img src="https://github.com/user-attachments/assets/d8f8c877-4b1d-4a95-b400-30afe45d970e" alt="Download on the Mac App Store" height="55"/></a> <a href="https://github.com/RSSNext/Folo/releases/latest" target="_blank"><img src="https://github.com/user-attachments/assets/cf61e197-d756-4606-a8ad-fb591f79fdfc" alt="Download on GitHub" height="55"/></a> |
-| Windows  | <a href="https://apps.microsoft.com/detail/9nvfzpv0v0ht?mode=direct" target="_blank"><img src="https://github.com/user-attachments/assets/f689d2dc-010d-432b-909e-99ab344ddbda" alt="Download from the Microsoft Store" height="55"/></a> <a href="https://github.com/RSSNext/Folo/releases/latest" target="_blank"><img src="https://github.com/user-attachments/assets/cf61e197-d756-4606-a8ad-fb591f79fdfc" alt="Download on GitHub" height="55"/></a>    |
-| Linux    | <a href="https://github.com/RSSNext/Folo/releases/latest" target="_blank"><img src="https://github.com/user-attachments/assets/cf61e197-d756-4606-a8ad-fb591f79fdfc" alt="Download on GitHub" height="55"/></a>                                                                                                                                                                                                                                              |
+## 1. 原版 Folo 存在的问题
 
-You can also install using the following methods maintained by our community:
+在深入体验与逆向分析官方原版 Folo 客户端后，发现存在以下主要痛点与体验缺陷：
 
-- If you are using Arch Linux, you can install the package [folo-appimage](https://aur.archlinux.org/packages/folo-appimage) that is maintained by [timochan](https://github.com/ttimochan) and [grtsinry43](https://github.com/grtsinry43).
-- If you are using Linux with [Flatpak](https://flatpak.org), you can install [Folo](https://flatpark.org/apps/is.folo.Folo/) from [FlatPark](https://flatpark.org) that is maintained by [Komh](https://github.com/jing2uo).
-- If you are using Nix, you can install the package [follow](https://github.com/NixOS/nixpkgs/blob/master/pkgs/by-name/fo/follow/package.nix) that is maintained by [iosmanthus](https://github.com/iosmanthus).
-- If you are using macOS with [Homebrew](https://brew.sh), you can install the cask [folo](https://formulae.brew.sh/cask/folo) that is maintained by [realSunyz](https://github.com/realSunyz).
-- If you are using Windows with [Scoop](https://scoop.sh), you can install the manifest [folo](https://github.com/cscnk52/cetacea/blob/master/bucket/folo.json) that is maintained by [cscnk52](https://github.com/cscnk52).
+### 1.1 严格的商业化付费墙拦截
+原版客户端将大量生产力功能（AI 全文摘要、文章翻译、多模型对话、时间线总结等）绑定在官方 Pro 订阅计划上。对于免费（Free）用户，即使仅仅是想使用客户端的基础功能，也会在各处触发 402 升级提示弹窗（如提示“开启免费试用以继续使用 AI 摘要，升级到 Pro 计划”）。
 
-| [![Discord](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fdiscord.com%2Fapi%2Finvites%2FAwWcAQ7euc%3Fwith_counts%3Dtrue&query=approximate_member_count&color=5865F2&label=Discord&labelColor=black&logo=discord&logoColor=white&style=flat-square)](https://discord.gg/AwWcAQ7euc) | Join our Discord server to connect with developers, request features, and receive support. |
-| :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :----------------------------------------------------------------------------------------- |
-| [![](https://img.shields.io/badge/any_text-Follow-blue?color=2CA5E0&label=_&logo=x&labelColor=black&style=flat-square)](https://x.com/intent/follow?screen_name=folo_is)                                                                                                                         | Follow us on X for product updates.                                                        |
+### 1.2 BYOK (自带密钥) 功能不完整且缺乏自定义支持
+- **无法自定义 Base URL**：原版仅预置了部分官方服务商，无法直接填入任意 OpenAI 兼容的第三方中转接口或本地私有化部署网关（如 OneAPI、NewAPI、Ollama、LocalAI 等）。
+- **无法拉取与选择模型**：配置 BYOK 时无法配置或从远端服务端读取可用模型列表，用户无法自由选择实际调用的模型名称。
+- **配置时崩溃异常**：进入部分包含 BYOK 设置或用量统计的界面时，因缺少防御性空值校验，容易抛出 `reading 'total' of undefined` 导致页面白屏崩溃。
 
-> \[!IMPORTANT]
->
-> **Star Us**, You will receive all release notifications from GitHub without any delay \~
+### 1.3 官方云端依赖残留与静默降级暗坑
+- 在原版代码中，部分 AI 请求（如 AI 摘要、标题生成）一旦遇到请求网络波动或参数不符，会在内部静默回退调用官方云端计费接口 `api().ai.*`；
+- 一旦用户使用的是免费账号，降级调用立刻被官方服务器拒绝并返回 402 状态码，强行弹窗要求用户充值付费，导致本地配置形同虚设。
 
-![Star Folo on GitHub](https://github.com/user-attachments/assets/a08f9437-b24c-4388-8f01-2826e09eeaf2)
+### 1.4 AI 对话模型选择器交互缺陷与 401 报错
+- **死锁逻辑**：原版在可用模型数量只有 1 个时，直接跳过下拉菜单包装器（`hasMultipleModels` 判定为 false），导致用户点击模型标签毫无反应，无法切换或查看模型配置；
+- **小窗口样式隐藏**：模型名称在小于断点（`@md`）的窗口或默认浮窗下被 CSS 强制隐藏（`hidden @md:inline`），仅残留极小图标，造成视觉上模型选择器缺失的困扰；
+- **前缀比对失效致 401**：在模型匹配时未检索 `availableModels`，且带前缀的模型名（如 `openai/gpt-4o`）匹配失败后直接回退到数组首个 Provider 的密钥，导致请求向目标服务发送错误密钥，报出 `401 Invalid API key`。
 
-<a href="https://next.ossinsight.io/widgets/official/compose-last-28-days-stats?repo_id=783512367" target="_blank" style="display: block" align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://next.ossinsight.io/widgets/official/compose-last-28-days-stats/thumbnail.png?repo_id=783512367&image_size=auto&color_scheme=dark" width="655" height="auto">
-    <img alt="Performance Stats of RSSNext/Folo - Last 28 days" src="https://next.ossinsight.io/widgets/official/compose-last-28-days-stats/thumbnail.png?repo_id=783512367&image_size=auto&color_scheme=light" width="655" height="auto">
-  </picture>
-</a>
+---
 
-## ✨ Features
+## 2. 为什么 Fork 进行定制修改
 
-### Folo AI
+本项目的核心理念是：**让开源 RSS 阅读器回归数据自主与智能自由**。
 
-Ask about an article, a feed, a folder or everything you follow. Pick your AI model or bring your own API key, and connect MCP services to bring your other tools into Folo AI.
+1. **摆脱中心化依赖**：用户应当有权使用自己的 API 密钥与自建算力，无需将阅读数据与提问上下文提交给官方托管服务。
+2. **算力多元化接入**：支持主流大语言模型服务商（包括 DeepSeek、Claude、OpenAI、Google Gemini 等），支持国内外各类高性价比、开源自建或聚合接口。
+3. **消除付费打扰**：在客户端彻底解除所有对 Free 用户的本地权限锁定，提供纯净、无弹窗打扰的高效阅读体验。
 
-![Folo AI: ask your feeds anything](https://github.com/user-attachments/assets/cd5a6455-0317-43a0-9bbb-9c0a5983fa12)
+---
 
-### Timeline Summary
+## 3. 解锁的原版付费（Pro）功能清单
 
-Turn hundreds of new entries into one quick digest of what matters.
+经过本次定制，原版仅供 Pro/付费订阅用户使用的功能已在客户端本地完整解锁开放：
 
-![Timeline summary: your day, summarized](https://github.com/user-attachments/assets/1fb8b40c-481b-4f54-9170-844f2513349d)
+| 功能模块 | 原版 Free 用户表现 | 本版本 (Custom 版) 表现 |
+| :--- | :--- | :--- |
+| **文章全文 AI 摘要** | 限制调用次数，频繁弹出 402 升级订阅提示 | 无限制调用，直接走本地配置模型，永不弹窗 |
+| **全文与划词 AI 翻译** | 限制调用，仅支持少量试用字数 | 无限制逐项翻译，完美保留 HTML 排版与 Markdown 结构 |
+| **AI 对话助手** | 限制高级模型访问，依赖官方云端通信 | 完整支持流式 SSE 通信，可直接对话与追问 |
+| **多模型切换** | 仅限 Pro 用户选择官方高阶模型 | 支持下拉选择任意通过 BYOK 拉取或配置的大模型 |
+| **时间线智能总结** | 限制调用 | 自动聚合时间线未读内容并调用本地模型完成速报摘要 |
+| **快捷指令与动作** | 部分指令受限 | 完整支持自定义 Prompt 快捷动作与文章交互 |
 
-### AI Translation and Summaries
+---
 
-Read articles side by side with an AI translation in English, Chinese, Japanese or French, and get an AI summary of any article, on demand or automatically.
+## 4. 具体修改内容与实现概览
 
-![AI translation: read the world in your language](https://github.com/user-attachments/assets/4396ee96-2bee-4332-ae49-4dc7c633ef8f)
+所有改动严格遵守 KISS 架构风格，杜绝多余抽象与冗余代码。改动明细汇总如下：
 
-### Every Format
+### 4.1 客户端角色单点覆写
+- **路径**：`packages/internal/store/src/modules/user/store.ts`
+- **实现**：在用户数据同步入口，将本地用户的 `UserRole.Free` 单点识别为 `UserRole.Pro`，零侵入解锁所有付费判定逻辑。
 
-Articles, social posts, pictures, videos and podcasts each get a layout made for them, and text-to-speech reads any article aloud with natural voices.
+### 4.2 自定义 AI 服务核心类 (CustomAIService)
+- **路径**：`packages/internal/store/src/services/custom-ai.ts`
+- **实现**：
+  - 同步解析本地存储中配置的 BYOK Provider；
+  - 自动剥离模型名称中的前端冗余前缀（如 `openai/`、`custom/`），确保请求格式规范；
+  - 支持 OpenAI 兼容规范与 Google Gemini 原生格式；
+  - 基于 `ReadableStream` 与 SSE 协议实现流式对话通信（`streamChat`）；
+  - 封装统一的摘要生成（`generateSummary`）与文本翻译（`translateText`）接口。
 
-![Every format: not just articles](https://github.com/user-attachments/assets/46c85896-4c2c-4333-ab30-97721678740d)
+### 4.3 全链路接管与断开官方降级
+- **AI 摘要**：`packages/internal/store/src/modules/summary/store.ts` 优先走 `CustomAIService`，出错时直接提示错误，严格禁止 fallback 到官方 `api().ai.summary`；
+- **AI 翻译**：`packages/internal/store/src/modules/translation/store.ts` 全程使用本地配置的模型翻译；
+- **AI 对话**：`apps/desktop/layer/renderer/src/modules/ai-chat/store/transport.ts` 拦截官方请求，改用本地流式 SSE 通信，会话标题直接由首句截取本地生成。
 
-### AI Tasks
+### 4.4 BYOK 设置界面增强
+- **路径**：`apps/desktop/layer/renderer/src/modules/settings/tabs/ai/byok/ByokProviderModalContent.tsx`
+- **实现**：
+  - 允许填入自定义 Base URL 与 API Key；
+  - 增加“拉取模型列表”功能，自动请求端点的 `/models` 接口并解析呈现；
+  - 支持直接下拉选择已拉取的模型，或自由手动输入模型名；
+  - 扩展 `UserByokProviderConfig` 类型定义，持久化存储 `availableModels`。
 
-Schedule AI tasks that write daily or weekly briefings and deliver them to chat or email.
+### 4.5 模型选择器交互与时序修复
+- **路径**：`AIModelIndicator.tsx`、`useAIConfiguration.ts`、`useAIModel.ts`
+- **实现**：
+  - 移除单个模型时禁用下拉的逻辑死锁，支持始终展开菜单；
+  - 下拉菜单底部增加“配置 AI 模型...”快捷跳转项；
+  - 修复浮窗或窄屏下文字隐藏问题，确保模型名称与下拉箭头始终可见；
+  - 同步优先从本地读取 BYOK 配置，杜绝初始渲染时拉取官方配置污染缓存。
 
-![AI tasks: briefings that write themselves](https://github.com/user-attachments/assets/12b4a8bb-1590-4d5b-8e1a-8967456de1ce)
+---
 
-### Integrations
+## 5. 快速上手与配置指南
 
-Send articles to Obsidian, Readwise, Instapaper, Zotero, Cubox, Outline, Readeck or Eagle, and let Actions filter, star, rewrite, notify or summarize new entries with your own rules.
+1. 打开应用，进入 **设置 (Settings) -> AI 选项卡**；
+2. 找到 **BYOK (Bring Your Own Key)** 配置区域；
+3. 点击 **添加服务商**：
+   - **服务商**：选择 OpenAI、Google、DeepSeek 或 Custom（自定义兼容接口）；
+   - **API Key**：填写你的服务商 API 密钥；
+   - **API 地址 (Base URL)**：若为第三方中转或自建网关，填入完整地址（如 `https://api.deepseek.com/v1` 或自定义域名）；
+   - 点击 **拉取模型列表**，在下拉菜单中直接选择所需模型（如 `deepseek-chat`、`gpt-4o` 等）；
+4. 保存配置，即可在文章详情、划词工具栏以及右下角 AI 对话窗口中完整使用全部 AI 能力。
 
-![Integrations: works with your tools](https://github.com/user-attachments/assets/5d45ab95-71a2-42b4-9631-332aee1ea343)
+---
 
-### On Your Phone
+## 6. 编译与打包说明
 
-Folo for iPhone, iPad and Android brings AI summaries, read-aloud and discovery with you, and picks up where you left off on your computer.
+本项目推荐通过 pnpm 结合 Turbo 进行依赖管理与编译：
 
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/61bbe7a5-2f95-4ca3-a466-6192781dcff2" alt="AI summaries on iPhone" width="24%" />
-  <img src="https://github.com/user-attachments/assets/2c97a3dc-e688-4445-8ae2-aabed7275ca7" alt="Text-to-speech on iPhone" width="24%" />
-  <img src="https://github.com/user-attachments/assets/5797f7cd-b5a4-42e2-8199-3a4c010b89d7" alt="Discovering sources on iPhone" width="24%" />
-  <img src="https://github.com/user-attachments/assets/f616f7ff-0718-4d2c-af01-408963920bbe" alt="The same timeline on iPhone and Mac" width="24%" />
-</p>
+```bash
+# 1. 安装项目依赖
+pnpm install
 
-### And More
+# 2. 编译桌面端渲染层与 Electron 主进程（开发验证推荐）
+pnpm run build:electron-vite
 
-- Subscribe to any RSS, Atom or JSON feed, plus thousands of [RSSHub](https://github.com/DIYgod/RSSHub) routes for sites without a feed
-- Import and export OPML to move from any other reader
-- An inbox with its own email address for newsletters
-- Customizable keyboard shortcuts and a command menu
-- Themes, reading fonts, custom CSS and code highlighting
-- Spotlight highlights the keywords you care about
-- Open source, with no ads
+# 3. 启动桌面端网页预览模式
+cd apps/desktop && pnpm run dev:web
 
-## 🤝 Contributing
+# 4. 启动 Electron 桌面调试窗口
+cd apps/desktop && pnpm run dev:electron
 
-You are welcome to join the open source community to build together, please check our [Contributing Guide](./CONTRIBUTING.md) for more details.
+# 5. 打包桌面端完整分发包
+pnpm run build:electron
+```
 
-## 🔏 Code signing policy
+---
 
-Folo for Windows uses free code signing provided by [SignPath.io](https://about.signpath.io/), a certificate by [SignPath Foundation](https://signpath.org/).
+## 7. 上游代码合并指南
 
-Folo for macOS and iOS is signed and notarized by [Apple Developer Program](https://developer.apple.com/programs/).
-
-All released files are verified with [GitHub artifact attestations](https://github.com/RSSNext/Folo/attestations) to ensure their provenance and integrity.
-
-## 📝 License
-
-Folo is licensed under the GNU Affero General Public License version 3 with the addition of the following special exception:
-
-All content in the `icons/mgc` directory is copyrighted by https://mgc.mingcute.com/ and cannot be redistributed.
+本仓库已建立完善的自定义变更隔离机制，详细的文件改动清单与版本同步指南请参阅：
+- [自定义修改与上游合并指南: CUSTOM_MODIFICATIONS.md](./CUSTOM_MODIFICATIONS.md)
